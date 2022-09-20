@@ -195,6 +195,9 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
           is GooglePayPaymentMethodLauncher.Result.Failed -> {
             presentGooglePayPromise?.resolve(createError(GooglePayErrorType.Failed.toString(), result.error))
           }
+          else -> {
+            presentGooglePayPromise?.resolve(createError(GooglePayErrorType.Failed.toString(), "$result type is not supported yet"))
+          }
         }
       }
       if (intent.action == ON_GOOGLE_PAY_RESULT) {
@@ -211,6 +214,9 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
           }
           is GooglePayLauncher.Result.Failed -> {
             presentGooglePayPromise?.resolve(createError(GooglePayErrorType.Failed.toString(), result.error))
+          }
+          else -> {
+            presentGooglePayPromise?.resolve(createError(GooglePayErrorType.Failed.toString(), "$result type is not supported yet"))
           }
         }
       }
@@ -233,6 +239,10 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
           is PaymentSheetResult.Completed -> {
             confirmPaymentSheetPaymentPromise?.resolve(WritableNativeMap())
             presentPaymentSheetPromise?.resolve(WritableNativeMap())
+          }
+          else -> {
+            confirmPaymentSheetPaymentPromise?.resolve(createError(PaymentSheetErrorType.Failed.toString(), "$result type is not supported yet"))
+            presentPaymentSheetPromise?.resolve(createError(PaymentSheetErrorType.Failed.toString(), "$result type is not supported yet"))
           }
         }
       } else if (intent.action == ON_PAYMENT_OPTION_ACTION) {
